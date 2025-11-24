@@ -10,7 +10,7 @@
 
 .App::before {
   content: '';
-  position: fixed;
+  position: absolute;  /* fixed → absolute */
   inset: 0;
   background: radial-gradient(circle at 10% 15%, rgba(28, 127, 242, 0.18), transparent 50%),
     radial-gradient(circle at 90% 0%, rgba(99, 255, 216, 0.35), transparent 30%);
@@ -20,7 +20,7 @@
 
 .App::after {
   content: '';
-  position: fixed;
+  position: absolute; /* fixed → absolute */
   inset: 0;
   background-image: linear-gradient(rgba(10, 28, 61, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(10, 28, 61, 0.04) 1px, transparent 1px);

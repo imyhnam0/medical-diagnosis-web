@@ -1,0 +1,450 @@
+.age-page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  color: var(--color-text);
+}
+
+/* 배경 그라데이션 및 패턴 */
+.age-page::before {
+  content: '';
+  position: fixed;
+  inset: -120px;
+  background: radial-gradient(circle at 15% 20%, rgba(99, 255, 216, 0.2), transparent 45%),
+    radial-gradient(circle at 90% 5%, rgba(33, 123, 255, 0.28), transparent 38%),
+    linear-gradient(140deg, rgba(12, 42, 84, 0.08), transparent 40%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.age-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(5, 32, 63, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 32, 63, 0.05) 1px, transparent 1px);
+  background-size: 160px 160px;
+  opacity: 0.6;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.age-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 52px 32px 44px;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 헤더 */
+.age-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.age-header::after {
+  content: '';
+  position: absolute;
+  inset: auto 16px 0 16px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(28, 127, 242, 0), rgba(28, 127, 242, 0.65), rgba(79, 224, 193, 0));
+  opacity: 0.6;
+}
+
+.back-button {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  color: var(--color-heading);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px 14px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+}
+
+.back-button:hover {
+  background: rgba(15, 78, 179, 0.08);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateX(-2px);
+}
+
+.age-title {
+  color: var(--color-heading);
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+/* 콘텐츠 */
+.age-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* 입력 카드 */
+.input-card {
+  background: var(--card-surface-strong);
+  border-radius: 32px;
+  padding: 38px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 20px 52px rgba(5, 32, 63, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 60px rgba(5, 32, 63, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+}
+
+.input-card::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(28, 127, 242, 0.15), transparent 60%);
+  filter: blur(6px);
+  z-index: 0;
+}
+
+.input-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(79, 224, 193, 0.12), transparent 60%);
+  filter: blur(6px);
+  z-index: 0;
+}
+
+.input-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 30px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-heading);
+  letter-spacing: -0.4px;
+}
+
+.card-header span:first-child {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(140deg, var(--color-primary), var(--color-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 12px 26px rgba(28, 127, 242, 0.28);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-header span:first-child:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 16px 32px rgba(28, 127, 242, 0.35);
+}
+
+.input-group {
+  margin-bottom: 22px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-heading);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.input-group input[type="number"] {
+  width: 100%;
+  padding: 18px;
+  border: 1.5px solid var(--card-border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  color: var(--color-heading);
+}
+
+.input-group input[type="number"]::placeholder {
+  color: var(--color-muted);
+  opacity: 0.5;
+}
+
+.input-group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(28, 127, 242, 0.1), 0 8px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.radio-group {
+  display: flex;
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 14px 18px;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  color: var(--color-heading);
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.radio-group label:hover {
+  background: rgba(15, 78, 179, 0.08);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(28, 127, 242, 0.15);
+}
+
+.radio-group input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.bmi-display {
+  background: linear-gradient(120deg, rgba(28, 127, 242, 0.1), rgba(79, 224, 193, 0.1));
+  border: 1px solid rgba(28, 127, 242, 0.25);
+  border-radius: 18px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+  font-weight: 800;
+  color: var(--color-primary);
+  font-size: 16px;
+  box-shadow: 0 8px 20px rgba(28, 127, 242, 0.15);
+}
+
+.bmi-display span:first-child {
+  font-size: 24px;
+}
+
+/* 분석 버튼 */
+.analyze-button {
+  width: 100%;
+  padding: 20px 24px;
+  background: linear-gradient(120deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 16px 38px rgba(28, 127, 242, 0.36);
+  letter-spacing: -0.2px;
+  margin-top: 10px;
+}
+
+.analyze-button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 22px 46px rgba(28, 127, 242, 0.42);
+}
+
+.analyze-button:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.analyze-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 키워드 카드 */
+.keywords-card {
+  background: var(--card-surface-strong);
+  border-radius: 32px;
+  padding: 38px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 20px 52px rgba(5, 32, 63, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.keywords-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 60px rgba(5, 32, 63, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+}
+
+.keywords-card::before {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 170px;
+  height: 170px;
+  background: radial-gradient(circle, rgba(79, 224, 193, 0.12), transparent 60%);
+  filter: blur(5px);
+  z-index: 0;
+}
+
+.keywords-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.keywords-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-heading);
+  letter-spacing: -0.4px;
+}
+
+.keywords-header span:first-child {
+  font-size: 26px;
+}
+
+.keywords-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.keyword-tag {
+  background: rgba(28, 127, 242, 0.1);
+  border: 1px solid rgba(28, 127, 242, 0.25);
+  color: var(--color-primary);
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.keyword-tag:hover {
+  background: rgba(28, 127, 242, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(28, 127, 242, 0.2);
+}
+
+/* 다음 버튼 */
+.next-button {
+  width: 100%;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  border-radius: 18px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 28px;
+  box-shadow: 0 8px 20px rgba(28, 127, 242, 0.15);
+  letter-spacing: -0.2px;
+}
+
+.next-button:hover:not(:disabled) {
+  background: linear-gradient(120deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(28, 127, 242, 0.3);
+}
+
+.next-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--card-border);
+  color: var(--color-muted);
+  transform: none;
+  box-shadow: none;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .age-container {
+    padding: 32px 20px 28px;
+  }
+
+  .age-header {
+    padding: 14px 18px;
+    margin-bottom: 36px;
+  }
+
+  .age-title {
+    font-size: 20px;
+  }
+
+  .input-card,
+  .keywords-card {
+    padding: 28px 22px;
+  }
+
+  .card-header {
+    font-size: 20px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .radio-group label {
+    padding: 12px 14px;
+  }
+}

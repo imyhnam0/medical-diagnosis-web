@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { saveDemoRequest } from '../utils/api';
 import './HomePage.css';
 
 const chatMessages = [
@@ -56,6 +58,7 @@ const featureItems = [
 ];
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [visibleChats, setVisibleChats] = useState(0);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -107,15 +110,16 @@ const HomePage = () => {
     setSubmitMessage('');
 
     try {
-      // 여기에 실제 API 호출을 추가할 수 있습니다
-      // 예: await fetch('/api/demo-request', { method: 'POST', body: JSON.stringify({ email }) });
+      const result = await saveDemoRequest(email);
       
-      // 시뮬레이션을 위한 지연
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setSubmitMessage('데모 요청이 성공적으로 전송되었습니다. 곧 연락드리겠습니다.');
-      setEmail('');
+      if (result.success) {
+        setSubmitMessage('데모 요청이 성공적으로 전송되었습니다. 곧 연락드리겠습니다.');
+        setEmail('');
+      } else {
+        setSubmitMessage(result.error || '요청 처리 중 오류가 발생했습니다.');
+      }
     } catch (error) {
+      console.error('데모 요청 오류:', error);
       setSubmitMessage('요청 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
     } finally {
       setIsSubmitting(false);
@@ -144,6 +148,15 @@ const HomePage = () => {
           <a href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('features'); setMobileMenuOpen(false); }}>주요 기능</a>
           <a href="#previsit" onClick={(e) => { e.preventDefault(); scrollToSection('previsit'); setMobileMenuOpen(false); }}>진단 절차</a>
           <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); setMobileMenuOpen(false); }}>개발자 소개</a>
+          {mobileMenuOpen && (
+            <button 
+              className="mobile-close-button" 
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="메뉴 닫기"
+            >
+              ✕
+            </button>
+          )}
         </nav>
 
         
@@ -165,7 +178,7 @@ const HomePage = () => {
               누구나 간편하게 사용할 수 있는 혁신적인 비대면 헬스케어 솔루션입니다.
             </p>
             <div className="hero-actions">
-              <button className="request-demo-button" onClick={() => scrollToSection('demo')}>
+              <button className="request-demo-button" onClick={() => navigate('/isdiseaseright')}>
                 진단 시작하기
               </button>
               <button className="ghost-button" onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}>
@@ -199,7 +212,6 @@ const HomePage = () => {
                     <div 
                       key={idx} 
                       className={`chat-message ${msg.isAI ? 'ai-message' : 'user-message'}`}
-                      style={{ animationDelay: `${idx * 0.1}s` }}
                     >
                       {msg.isAI && <div className="chat-sender">{msg.sender}</div>}
                       <div className="chat-bubble">{msg.message}</div>
@@ -393,7 +405,7 @@ const HomePage = () => {
               <p className="section-subtitle">Request Access</p>
               <h2>데모 요청</h2>
               <p className="demo-description">
-                SNU Clinical AI의 데모를 체험해보세요. 이메일 주소를 입력하면 보안이 적용된 체험 링크를 안내해드립니다.
+                SNU MedAI의 데모를 체험해보세요. 이메일 주소를 입력하면 체험 링크를 안내해드립니다.
               </p>
               <ul className="checklist">
                 <li>피드백 기반 모델 개선 및 지속 업데이트</li>

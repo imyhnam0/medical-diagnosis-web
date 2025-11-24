@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://98.91.66.27:8080/api/analyze';
+const API_BASE_URL = 'http://localhost:8080/api/analyze';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -71,6 +71,12 @@ export const getDiseaseInfo = async (data) => {
 
 export const resetDiagnosis = async () => {
   const response = await api.post('/reset-diagnosis');
+  return response.data;
+};
+
+// 데모 요청 이메일 저장
+export const saveDemoRequest = async (email) => {
+  const response = await axios.post('http://localhost:8080/api/demo-request', { email });
   return response.data;
 };
 

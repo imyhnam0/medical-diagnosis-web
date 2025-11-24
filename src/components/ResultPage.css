@@ -1,0 +1,456 @@
+/* ResultPage.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+.result-page {
+  min-height: 100vh;
+  background: var(--app-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.result-page::before {
+  content: '';
+  position: fixed;
+  inset: -120px;
+  background: radial-gradient(circle at 15% 20%, rgba(99, 255, 216, 0.2), transparent 45%),
+    radial-gradient(circle at 90% 5%, rgba(33, 123, 255, 0.28), transparent 38%),
+    linear-gradient(140deg, rgba(12, 42, 84, 0.08), transparent 40%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.result-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(5, 32, 63, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 32, 63, 0.05) 1px, transparent 1px);
+  background-size: 160px 160px;
+  opacity: 0.6;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.result-header {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.back-button {
+  background: transparent;
+  border: none;
+  color: var(--color-heading);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-button:hover {
+  background: rgba(28, 127, 242, 0.1);
+  color: var(--color-primary);
+}
+
+.result-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-heading);
+  letter-spacing: -0.3px;
+}
+
+.result-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 32px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 24px;
+}
+
+.loading-container p {
+  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(28, 127, 242, 0.2);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-icon {
+  font-size: 80px;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.empty-state h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: var(--color-heading);
+}
+
+.empty-state p {
+  font-size: 16px;
+  margin: 0;
+  color: var(--color-muted);
+  line-height: 1.6;
+}
+
+/* TOP 2 질병 카드 */
+.top-disease-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.top-disease-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(28, 127, 242, 0.15), transparent 70%);
+  filter: blur(20px);
+  z-index: 0;
+}
+
+.top-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.top-card-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(28, 127, 242, 0.3);
+}
+
+.top-card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.top-diseases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.disease-rank-card {
+  background: var(--color-surface-strong);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  box-shadow: 0 8px 20px rgba(5, 32, 63, 0.1);
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.disease-rank-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(5, 32, 63, 0.14);
+}
+
+.disease-rank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.disease-name-main {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-heading);
+  letter-spacing: -0.3px;
+}
+
+.disease-score-badge {
+  padding: 8px 16px;
+  background: rgba(28, 127, 242, 0.12);
+  border: 1px solid rgba(28, 127, 242, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  flex-shrink: 0;
+}
+
+.disease-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.disease-description {
+  font-size: 15px;
+  color: var(--color-text);
+  line-height: 1.7;
+  padding: 12px;
+  background: rgba(14, 32, 59, 0.04);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.disease-prognosis {
+  font-size: 14px;
+  color: var(--color-muted);
+  line-height: 1.7;
+  padding: 12px;
+  background: rgba(79, 224, 193, 0.08);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(79, 224, 193, 0.2);
+}
+
+.disease-info-loading,
+.disease-info-error {
+  font-size: 14px;
+  color: var(--color-muted);
+  padding: 12px 0;
+  font-style: italic;
+}
+
+/* 기타 질병 카드 */
+.other-diseases-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.other-diseases-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(79, 224, 193, 0.15), transparent 70%);
+  filter: blur(20px);
+  z-index: 0;
+}
+
+.other-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.other-card-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(79, 224, 193, 0.3);
+}
+
+.other-card-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.other-diseases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.other-disease-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--color-surface-strong);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 16px;
+}
+
+.other-disease-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 16px rgba(5, 32, 63, 0.1);
+  border-color: rgba(28, 127, 242, 0.3);
+}
+
+.other-disease-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+.other-disease-score {
+  padding: 6px 14px;
+  background: rgba(28, 127, 242, 0.12);
+  border: 1px solid rgba(28, 127, 242, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  flex-shrink: 0;
+}
+
+/* 처음으로 버튼 (FAB 스타일) */
+.go-to-main-button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-glow);
+  transition: all 0.3s ease;
+  z-index: 100;
+  letter-spacing: -0.2px;
+}
+
+.go-to-main-button:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 24px 48px rgba(28, 127, 242, 0.4);
+}
+
+.go-to-main-button:active {
+  transform: translateY(-2px) scale(1);
+}
+
+.button-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-text {
+  font-weight: 700;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .result-header {
+    padding: 12px 20px;
+  }
+
+  .result-title {
+    font-size: 18px;
+  }
+
+  .result-content {
+    padding: 24px 20px 100px;
+  }
+
+  .top-disease-card,
+  .other-diseases-card {
+    padding: 24px;
+  }
+
+  .top-card-title,
+  .other-card-title {
+    font-size: 20px;
+  }
+
+  .disease-name-main {
+    font-size: 18px;
+  }
+
+  .go-to-main-button {
+    bottom: 24px;
+    right: 24px;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+
+  .button-icon {
+    font-size: 18px;
+  }
+}
