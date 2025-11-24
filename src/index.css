@@ -1,13 +1,68 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-navy: #05203f;
+  --color-primary: #1c7ff2;
+  --color-secondary: #0f4eb3;
+  --color-accent: #4fe0c1;
+  --color-accent-strong: #61ffd7;
+  --color-heading: #0d1c2f;
+  --color-text: #1c2639;
+  --color-dark: #031326;
+  --color-muted: #6e7c92;
+  --color-border: rgba(15, 76, 117, 0.22);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+  --color-surface: rgba(255, 255, 255, 0.95);
+  --color-surface-muted: rgba(14, 32, 59, 0.35);
+  --color-glass: rgba(255, 255, 255, 0.16);
+  --color-glass-strong: rgba(9, 23, 44, 0.55);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --shadow-soft: 0 20px 45px rgba(5, 32, 63, 0.26);
+  --shadow-card: 0 20px 40px rgba(5, 20, 43, 0.22);
+  --shadow-glow: 0 20px 55px rgba(33, 123, 255, 0.28);
+  --app-gradient: radial-gradient(circle at 15% 20%, rgba(99, 255, 216, 0.25), transparent 55%),
+    radial-gradient(circle at 85% 10%, rgba(42, 132, 255, 0.35), transparent 45%),
+    linear-gradient(150deg, #eef4ff 0%, #f9fbff 50%, #e6f6ff 100%);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  background: var(--app-gradient);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
+  margin-top: 0;
+}
+
+::selection {
+  background: rgba(28, 127, 242, 0.25);
+  color: var(--color-dark);
 }
