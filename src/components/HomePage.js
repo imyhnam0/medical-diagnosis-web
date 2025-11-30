@@ -68,17 +68,36 @@ const HomePage = () => {
   useEffect(() => {
     // 채팅 메시지를 한 개씩 순차적으로 표시
     const timers = [];
-    
+
     chatMessages.forEach((_, index) => {
       const timer = setTimeout(() => {
         setVisibleChats(index + 1);
       }, 500 + (index * 1000)); // 첫 메시지 0.5초 후, 이후 각 메시지마다 1초 간격
-      
+
       timers.push(timer);
     });
 
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with scroll-reveal class
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    revealElements.forEach(el => observer.observe(el));
+
     return () => {
       timers.forEach(timer => clearTimeout(timer));
+      observer.disconnect();
     };
   }, []);
 
@@ -98,7 +117,7 @@ const HomePage = () => {
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    
+
     // 이메일 유효성 검사
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -111,7 +130,7 @@ const HomePage = () => {
 
     try {
       const result = await saveDemoRequest(email);
-      
+
       if (result.success) {
         setSubmitMessage('데모 요청이 성공적으로 전송되었습니다. 곧 연락드리겠습니다.');
         setEmail('');
@@ -128,6 +147,11 @@ const HomePage = () => {
 
   return (
     <div className="home-shell">
+      {/* Floating orbs for visual depth */}
+      <div className="orb orb-1"></div>
+      <div className="orb orb-2"></div>
+      <div className="orb orb-3"></div>
+
       <header className="home-header">
         <div className="home-logo">
           <div className="logo-checkmark">✓</div>
@@ -149,8 +173,8 @@ const HomePage = () => {
           <a href="#previsit" onClick={(e) => { e.preventDefault(); scrollToSection('previsit'); setMobileMenuOpen(false); }}>진단 절차</a>
           <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); setMobileMenuOpen(false); }}>개발자 소개</a>
           {mobileMenuOpen && (
-            <button 
-              className="mobile-close-button" 
+            <button
+              className="mobile-close-button"
               onClick={() => setMobileMenuOpen(false)}
               aria-label="메뉴 닫기"
             >
@@ -159,7 +183,7 @@ const HomePage = () => {
           )}
         </nav>
 
-        
+
       </header>
 
       {mobileMenuOpen && (
@@ -167,7 +191,7 @@ const HomePage = () => {
       )}
 
       <main className="home-main">
-        <div className="hero-content">
+        <div className="hero-content scroll-reveal">
           <div className="hero-left">
             <div className="hero-eyebrow">서울대학교병원 · SNU MedAI</div>
             <h1 className="hero-title">
@@ -209,8 +233,8 @@ const HomePage = () => {
                 {chatMessages.map((msg, idx) => {
                   if (idx >= visibleChats) return null;
                   return (
-                    <div 
-                      key={idx} 
+                    <div
+                      key={idx}
                       className={`chat-message ${msg.isAI ? 'ai-message' : 'user-message'}`}
                     >
                       {msg.isAI && <div className="chat-sender">{msg.sender}</div>}
@@ -221,87 +245,105 @@ const HomePage = () => {
               </div>
 
               <div className="chat-footnote">
-                임상 검증된 질문 흐름과 데이터 암호화를 기반으로 동작합니다.
+                의학 데이터베이스를 기반으로 동작합니다.
               </div>
             </div>
           </div>
         </div>
 
-        <section id="app-info" className="content-section">
+        <section id="app-info" className="content-section scroll-reveal">
           <div className="section-heading">
             <p className="section-subtitle">Application</p>
             <h2 className="section-title">앱 소개</h2>
-            
+
           </div>
 
           <div className="app-info-container">
-            <div className="app-info-card">
-              <div className="app-screenshot-section">
-                <div className="phone-mockup">
-                  <div className="phone-frame">
-                    <div className="phone-notch"></div>
-                    <div className="phone-screen">
-                      <img 
-                        src="/images/app-screenshot.png" 
-                        alt="앱 스크린샷" 
-                        className="app-screenshot-image"
-                        onError={(e) => {
-                          // 이미지가 없으면 숨김
-                          e.target.parentElement.parentElement.parentElement.style.display = 'none';
-                        }}
-                      />
+            <div className="app-dual-showcase scroll-reveal">
+              {/* 첫 번째 카드 - 실제 앱 스크린샷 */}
+              <div className="app-showcase-card">
+                <div className="showcase-header">
+                  <div className="showcase-badge">
+                    <span className="badge-icon">📱</span>
+                    <span>실제 구현</span>
+                  </div>
+                  <h3>모바일 진단 앱</h3>
+                  <p>누구나 쉽게 사용할 수 있는 직관적인 인터페이스</p>
+                </div>
+                <div className="app-screenshot-section">
+                  <div className="phone-mockup">
+                    <div className="phone-frame">
+                      <div className="phone-notch"></div>
+                      <div className="phone-screen">
+                        <img
+                          src="/images/app-screenshot.png"
+                          alt="앱 스크린샷"
+                          className="app-screenshot-image"
+                          onError={(e) => {
+                            e.target.parentElement.parentElement.parentElement.style.display = 'none';
+                          }}
+                        />
+                      </div>
                     </div>
+                    <div className="phone-glow"></div>
                   </div>
-                  <div className="phone-glow"></div>
-                </div>
-              </div>
-              <div className="app-info-content">
-                <div className="app-title-with-icon">
-                  <h3>의료 데이터 기반 진단 시스템</h3>
-                  <div className="app-icon-inline">
-                    <img 
-                      src="/images/app-icon.png" 
-                      alt="의료 데이터 기반 진단 시스템 앱 아이콘" 
-                      className="app-icon-image"
-                      onError={(e) => {
-                        // 이미지가 없을 경우 기본 아이콘 표시
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'grid';
-                      }}
-                    />
-                    <div className="app-icon-shield" style={{display: 'none'}}>🛡️</div>
-                  </div>
-                </div>
-                <p className="app-info-description">
-                  AI 기반 의료 진단으로 정확하고 신속한 건강 관리를 제공하는 혁신적인 모바일 애플리케이션입니다.
-                </p>
-                <div className="app-badges">
-                  <span className="app-badge">모바일 앱 출시</span>
-                  <span className="app-badge">iOS & Android</span>
-                  <span className="app-badge">실시간 진단</span>
                 </div>
                 <div className="app-features-list">
                   <div className="app-feature-item">
                     <span className="feature-check">✓</span>
-                    <span>스마트폰에서 바로 사용 가능한 모바일 앱</span>
+                    <span>iOS & Android 지원</span>
                   </div>
                   <div className="app-feature-item">
                     <span className="feature-check">✓</span>
-                    <span>간편한 증상 입력 및 AI 기반 분석</span>
+                    <span>실시간 증상 분석</span>
                   </div>
-                  
                   <div className="app-feature-item">
                     <span className="feature-check">✓</span>
-                    <span>의료진이 바로 활용할 수 있는 상세 리포트</span>
+                    <span>간편한 진단 리포트</span>
                   </div>
                 </div>
-                
+              </div>
+
+              {/* 두 번째 카드 - AI 의사 컨셉 */}
+              <div className="app-showcase-card">
+                <div className="showcase-header">
+                  <div className="showcase-badge ai-badge">
+                    <span className="badge-icon">🤖</span>
+                    <span>AI 기술</span>
+                  </div>
+                  <h3>앱의 기능</h3>
+                  <p>의사를 대신하여 정확한 진단을 제공하는 AI</p>
+                </div>
+                <div className="app-screenshot-section">
+                  <div className="doctor-image-wrapper">
+                    <img
+                      src="/images/doctor_app.png"
+                      alt="AI 진단 어시스턴트"
+                      className="doctor-app-image"
+                      onError={(e) => {
+                        e.target.parentElement.style.display = 'none';
+                      }}
+                    />
+                    <div className="doctor-glow"></div>
+                  </div>
+                </div>
+                <div className="app-features-list">
+                  <div className="app-feature-item">
+                    <span className="feature-check">✓</span>
+                    <span>AI 기반 문진 시스템</span>
+                  </div>
+                  <div className="app-feature-item">
+                    <span className="feature-check">✓</span>
+                    <span>임상 검증된 질문 흐름</span>
+                  </div>
+                  
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="features" className="content-section">
+        <section id="features" className="content-section scroll-reveal">
           <div className="section-heading">
             <p className="section-subtitle">Capabilities</p>
             <h2 className="section-title">주요 기능</h2>
@@ -323,7 +365,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section id="previsit" className="content-section">
+        <section id="previsit" className="content-section scroll-reveal">
           <div className="section-heading">
             <p className="section-subtitle">Workflow</p>
             <h2 className="section-title">진단 절차</h2>
@@ -348,7 +390,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section id="about" className="content-section">
+        <section id="about" className="content-section scroll-reveal">
           <div className="section-heading">
             <p className="section-subtitle">About</p>
             <h2 className="section-title">개발자 소개</h2>
@@ -399,7 +441,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section id="demo" className="content-section">
+        <section id="demo" className="content-section scroll-reveal">
           <div className="cta-banner">
             <div className="cta-copy">
               <p className="section-subtitle">Request Access</p>
@@ -423,8 +465,8 @@ const HomePage = () => {
                   required
                   disabled={isSubmitting}
                 />
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="submit-button"
                   disabled={isSubmitting}
                 >

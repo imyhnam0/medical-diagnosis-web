@@ -2,7 +2,32 @@ import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./ChatPage.css";
 
-const API_BASE_URL = 'http://localhost:8080/api/analyze';
+const API_BASE_URL = 'https://snumedai.store/api/analyze';
+const STORAGE_KEY = 'medical_session_id';
+
+// 세션 ID 가져오기
+const getSessionId = () => {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+
+// 세션 ID 저장하기 (이미 있으면 저장하지 않음)
+const saveSessionId = (sessionId) => {
+  if (!sessionId) return;
+  try {
+    const existingId = localStorage.getItem(STORAGE_KEY);
+    if (existingId === sessionId) {
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY, sessionId);
+    console.log('✅ 세션 ID 저장:', sessionId);
+  } catch {
+    // localStorage 사용 불가한 환경에서는 그냥 무시
+  }
+};
 
 // 각 질문마다 API를 호출하고 있습니다.
 // 질문별로 매핑된 endpoint를 사용해서 사용자의 응답(input)에 대해 API 요청을 합니다.
@@ -50,11 +75,31 @@ const questionList = [
 async function extractKeywords(endpoint, question, answer, questionIndex) {
   try {
     const fullUrl = `${API_BASE_URL}/${endpoint}`;
+    const sessionId = getSessionId();
+
+    const headers = { "Content-Type": "application/json" };
+    // 세션 ID가 있으면 헤더에 추가
+    if (sessionId) {
+      headers["X-Session-Id"] = sessionId;
+      console.log('📤 요청에 세션 ID 포함:', sessionId);
+    } else {
+      console.log('📤 세션 ID 없음 - 서버에서 새 세션 생성 예정');
+    }
+
     const res = await fetch(fullUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ question, answer, questionIndex })
     });
+    // 응답 헤더에서 세션 ID 저장
+    const responseSessionId =
+      res.headers.get('x-session-id') ||
+      res.headers.get('X-Session-Id') ||
+      res.headers.get('X-SESSION-ID');
+
+    if (responseSessionId) {
+      saveSessionId(responseSessionId);
+    }
     if (!res.ok) {
       const errorText = await res.text();
       console.error(`API 오류 (${res.status}):`, errorText);
@@ -62,7 +107,7 @@ async function extractKeywords(endpoint, question, answer, questionIndex) {
     }
     const data = await res.json();
     // API 응답에 keywords가 있으면 그걸 반환
-    return data.keywords || []; 
+    return data.keywords || [];
   } catch (e) {
     console.error("API 호출 오류:", e);
     return [];
@@ -89,7 +134,7 @@ const ChatPage = () => {
   useEffect(() => {
     // 이미 실행되었으면 스킵
     if (hasInitializedRef.current) return;
-    
+
     const autoProceed = async () => {
       if (initialUserInput && initialUserInput.trim()) {
         hasInitializedRef.current = true;
@@ -121,7 +166,7 @@ const ChatPage = () => {
 
     const step = questionStep;
     const userInput = input.trim();
-    
+
     // 1. 먼저 사용자 메시지를 화면에 표시
     setMessages(prev => {
       // 중복 체크
@@ -161,7 +206,7 @@ const ChatPage = () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const nextStep = step + 1;
-    
+
     // 5. 다음 질문 추가
     if (nextStep <= questionList.length) {
       setMessages(prev => {
